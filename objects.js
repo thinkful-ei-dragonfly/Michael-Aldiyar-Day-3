@@ -46,23 +46,58 @@
 // }
 
 function decode(word) {
-  let words = word.split(" ");
-  let output = "";
+  let words = word.split(' ');
+  let output = '';
+  let cipher = {
+    a : 1,
+    b : 2,
+    c : 3,
+    d : 4
+  };
   for (let i=0;i<words.length;i++) {
-    if (words[i].substring(0,1) == 'a') {
-      output += words[i][1];
-    } else if (words[i].substring(0,1) == 'b') {
-      output += words[i][2];
-    } else if (words[i].substring(0,1) == 'c') {
-      output += words[i][3];
-    } else if (words[i].substring(0,1) == 'd') {
-      output += words[i][4];
+    let currentWord = words[i];
+    let firstLetter = currentWord[0];
+    if (firstLetter in cipher) {
+      output += currentWord[cipher[firstLetter]];
     } else {
       output += ' ';
     }
-  
   }
   return output;
 }
 
-console.log(decode('craft block argon meter bells brown croon droop'));
+// console.log(decode('craft block argon meter bells brown croon droop'));
+
+function createCharacter(name, nickName, race, origin, attack, defense) {
+  return {
+    name,
+    nickName,
+    race,
+    origin,
+    attack,
+    defense,
+    describe : function() {
+      console.log(`${this.name} is a ${this.race} from ${this.origin}`);
+    },
+    evaluateFight : function(character) {
+      let x = this.attack - character.defense;
+      let y = character.attack - this.defense;
+      if (x < 0) {
+        x = 0;
+      }
+      if (y < 0) {
+        y = 0;
+      }
+      return `Your opponent takes ${x} damage and you receive ${y} damage`;
+    }
+  };
+}
+
+let characters = [createCharacter('Gandalf the White', 'gandalf', 'Wizard', 'Middle Earth', 10, 6), createCharacter('Bilbo Baggins', 'bilbo', 'Hobbit', 'The Shire', 2, 1), createCharacter('Frodo Baggins', 'frodo', 'Hobbit', 'The Shire', 3, 2), createCharacter('Aragorn son of Arathorn', 'aragorn', 'Man', 'Dunneain', 6, 8), createCharacter('Legolas', 'legolas', 'Elf', 'Woodland Realm', 8, 5), createCharacter('Arwen Undomiel', 'arwen', 'Half-Elf', 'Rivendell', 5, 5)];
+
+let gandalf = createCharacter('Gandalf the White', 'gandalf', 'Wizard', 'Middle Earth', 10, 6);
+let bilbo = createCharacter('Bilbo Baggins', 'bilbo', 'Hobbit', 'The Shire', 2, 1);
+
+characters.find(function() => {
+
+})

@@ -125,7 +125,63 @@ const HEROES = [
 
 
 function findOne(arr, query) {
-  for (let prop in arr[key])
+  let keys = Object.keys(query);
+  let filtered = [];
+  for (let i = 0; i < keys.length; i++) {
+    if (i === keys.length - 1) {
+      if (filtered.length) {
+        arr = filtered;
+      }
+      let foundHero = arr.find(function(hero) {
+        return hero[keys[i]] === query[keys[i]];
+      });
+      if (foundHero) {
+        return foundHero;
+      }
+    }
+    filtered = arr.filter(function(hero) {
+      return hero[keys[i]] === query[keys[i]];
+    });
+  }
+  return null;
 }
 
-console.log(findOne(HEROES, { id: 1 }));
+// console.log(findOne(HEROES, { squad: 'Justice League', id : 6}));
+
+const Database = {
+  store: {
+    heroes: [
+      { id: 1, name: 'Captain America', squad: 'Avengers' },
+      { id: 2, name: 'Iron Man', squad: 'Avengers' },
+      { id: 3, name: 'Spiderman', squad: 'Avengers' },
+      { id: 4, name: 'Superman', squad: 'Justice League' },
+      { id: 5, name: 'Wonder Woman', squad: 'Justice League' },
+      { id: 6, name: 'Aquaman', squad: 'Justice League' },
+      { id: 7, name: 'Hulk', squad: 'Avengers' },
+    ]
+  },
+  findOne : function(query) {
+    let arr = this.store.heroes;
+    let keys = Object.keys(query);
+    let filtered = [];
+    for (let i = 0; i < keys.length; i++) {
+      if (i === keys.length - 1) {
+        if (filtered.length) {
+          arr = filtered;
+        }
+        let foundHero = arr.find(function(hero) {
+          return hero[keys[i]] === query[keys[i]];
+        });
+        if (foundHero) {
+          return foundHero;
+        }
+      }
+      filtered = arr.filter(function(hero) {
+        return hero[keys[i]] === query[keys[i]];
+      });
+    }
+    return null;
+  }
+};
+
+console.log(Database.findOne({ squad: 'Avengers', id: 3 }));
